@@ -14,17 +14,20 @@ use App\Http\Controllers\UserController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// page route
+Route::view('/', 'auth.dashboard')->name('dashboard');
+Route::view('/login', 'pages.login')->name('login');
+Route::view('/register', 'pages.registration')->name('register');
+Route::view('/forgot-password', 'pages.forgotPassword')->name('forgotPassword');
+Route::view('/verify-otp', 'pages.verifyOTP')->name('otp');
+Route::view('/reset-password', 'pages.resetPassword')->name('resetPassword');
 
 
 
 
 
 
-
-// backend route
+// backend api route
 Route::post('/user-register',[UserController::class,'UserRegister'])->name('user-register');
 Route::post('/user-login',[UserController::class,'UserLogin'])->name('user-login');
 Route::post('/user-send-otp',[UserController::class,'SendOTPCode'])->name('user-send-otp');
