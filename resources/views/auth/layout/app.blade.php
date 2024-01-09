@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
     <link rel="stylesheet" href="{{ asset('css/preloader.css') }}">
 
-    <title>f</title>
+    <title>@yield('title')</title>
 </head>
 
 <body>
