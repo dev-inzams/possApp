@@ -42,8 +42,9 @@
                 hideLoader();
                 if(res.data['status'] == 'success'){
                     successToast(res.data['message']);
-                    window.location.href = "{{ route('dashboard') }}";
-
+                    setTimeout(() => {
+                        window.location.href = "{{ route('dashboard') }}";
+                    }, 1000);
                 }else{
                     errorToast(res.data['message']);
                 }

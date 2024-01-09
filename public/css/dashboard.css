@@ -64,7 +64,7 @@ input,select{
 }
 
 label{
-    color: var(--dark);
+    color: var(--success);
 }
 
 
@@ -76,11 +76,11 @@ button{
     transition: all 0.3s ease-in-out;
     margin: auto;
     background-color: var(--color-white);
-    border: 2px dashed var(--primary);
-    color: var(--dark);
+    border: 2px dashed var(--success);
+    color: var(--success);
 }
 button:hover{
-    background-color: var(--primary);
+    background-color: var(--success);
     color: white;
 }
 

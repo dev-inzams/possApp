@@ -16,8 +16,8 @@
                 <input type="email" class="form-control" id="email" placeholder="Enter email">
             </div>
             <div class="form-group mt-3">
-                <label for="mobileNumber">Mobile</label>
-                <input type="text" class="form-control" id="mobileNumber" placeholder="Enter Mobile Number">
+                <label for="mobileNumber">Phone Number</label>
+                <input type="text" class="form-control" id="phoneNumber" placeholder="Enter Mobile Number">
             </div>
             <div class="form-group mt-3">
                 <label for="password">Password</label>
@@ -31,14 +31,40 @@
     </div>
 </section>
 <script>
-    function register(){
-        let firstName = document.getElementById('firstName').value
-        let lastName = document.getElementById('lastName').value
-        let email = document.getElementById('email').value
-        let mobileNumber = document.getElementById('mobileNumber').value
-        let password = document.getElementById('password').value
-        let confirmPassword = document.getElementById('confirmPassword').value
-        console.log(firstName,lastName,email,mobileNumber,password,confirmPassword)
+   async function register(){
+        try{
+            let firstName = document.getElementById('firstName').value
+            let lastName = document.getElementById('lastName').value
+            let email = document.getElementById('email').value
+            let phoneNumber = document.getElementById('phoneNumber').value
+            let password = document.getElementById('password').value
+            let confirmPassword = document.getElementById('confirmPassword').value
+            if(password != confirmPassword){
+                errorToast('Password and Confirm Password does not match');
+            }else{
+                let postobj = {
+                    'firstName' : firstName,
+                    'lastName' : lastName,
+                    'email' : email,
+                    'phoneNumber' : phoneNumber,
+                    'password' : password
+                };
+                showLoader();
+                let res = await axios.post("/user-register",postobj);
+                hideLoader();
+                if(res.data['status'] == 'success'){
+                    successToast(res.data['message']);
+                    setTimeout(() => {
+                        window.location.href = "{{ route('login') }}";
+                    }, 1000);
+                }else{
+                    errorToast(res.data['message']);
+                }
+            }
+        }catch(e){
+            errorToast('Invalid Credentials')
+        }
+
     }
 </script>
 @endsection

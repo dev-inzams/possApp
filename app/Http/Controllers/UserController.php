@@ -57,7 +57,7 @@ class UserController extends Controller
                 'status' => 'success',
                 'message' => 'User logged in successfully',
                 'user' => $user->email
-            ],200)->cookie( 'token', $token);
+            ],200)->cookie( 'token', $token, 60*24*30);
         }else{
             return response()->json([
                 'status' => 'error',
@@ -117,7 +117,7 @@ class UserController extends Controller
                 return response()->json([
                     'status' => 'success',
                     'message' => 'OTP verification successfully',
-                ])->cookie( 'token', $token);
+                ])->cookie( 'token', $token, 60*24*30);
             }else{
                 return response()->json([
                     'status' => 'error',
@@ -139,7 +139,7 @@ class UserController extends Controller
         try{
             $email = $request->header('email');
             $password = Hash::make($request->input('password'));
-            $updatePass = User::where('email', $email)->update([
+            $updatePass = User::where('email','=', $email)->update([
                 'password' => $password
             ]);
             if($updatePass){
@@ -150,18 +150,24 @@ class UserController extends Controller
             }else{
                 return response()->json([
                     'status' => 'error',
-                    'message' => 'Password reset failed',
+                    'message' => $email.' user not found',
                 ],200);
             }
 
         }catch(\Exception $e){
             return response()->json([
                 'status' => 'error',
-                'message' => 'Password reset failed',
+                'message' => 'inzams',
             ],200);
         } // end of try
+
     } // end of ResetPassword
 
+
+    // user logout
+    public function UserLogout(){
+        return redirect('/login')->cookie( 'token', '', -1 );
+    }
 
 
 

@@ -23,10 +23,29 @@
 </section>
 
 <script>
-    function changePassword(){
-        let newPassword = document.getElementById('newPassword').value
-        let confirmPassword = document.getElementById('confirmPassword').value
-        console.log(newPassword,confirmPassword)
+    async function changePassword(){
+        try{
+           let newPassword = document.getElementById('newPassword').value
+           let confirmPassword = document.getElementById('confirmPassword').value
+           if( newPassword != confirmPassword){
+               errorToast('Password and Confirm Password does not match')
+           }else{
+               showLoader();
+               let res = await axios.post("/user-reset-password",{'password' : newPassword});
+               hideLoader();
+               if(res.data['status'] == 'success'){
+                   successToast(res.data['message']);
+                   setTimeout(() => {
+                       window.location.href = "{{ route('dashboard') }}";
+                   },1000);
+               }else{
+                   errorToast(res.data['message']);
+               }
+           }
+        }catch(error){
+            errorToast('Something went wrong')
+        }
+
     }
 </script>
 @endsection

@@ -18,9 +18,32 @@
     </div>
 </section>
 <script>
-    function forgotPassword(){
-        let email = document.getElementById('email').value
-        console.log(email)
+    async function forgotPassword(){
+        try{
+           let email = document.getElementById('email').value
+           if(email == ''){
+               errorToast('Email is required')
+           }else{
+               let postobj = {
+                   'email' : email
+               }
+               showLoader();
+               let res = await axios.post("/user-send-otp",postobj);
+               hideLoader();
+               if(res.data['status'] == 'success'){
+                   successToast(res.data['message']);
+                   sessionStorage.setItem('email',email);
+                   setTimeout(() => {
+                       window.location.href = "{{ route('otp') }}";
+                   }, 1000);
+               }else{
+                   errorToast(res.data['message']);
+               }
+           }
+        }catch(error){
+            errorToast(error.message)
+        }
+
     }
 </script>
 @endsection
