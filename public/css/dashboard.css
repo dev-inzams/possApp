@@ -52,7 +52,7 @@ input,select{
     width: 100%;
     padding: 10px;
     box-sizing: border-box;
-    border: 1px solid var(--color-white);
+    border: 1px solid var(--dark);
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transition: box-shadow 0.3s ease-in-out;
@@ -60,12 +60,13 @@ input,select{
     outline: none;
     margin-bottom: 10px;
     background-color: var(--color-white);
-    color: var(--color-primary);
+    color: var(--dark);
 }
 
-input:focus {
-    box-shadow: 0 4px 8px var(--color-white);
+label{
+    color: var(--dark);
 }
+
 
 button{
     border-radius: 5px;
@@ -75,12 +76,16 @@ button{
     transition: all 0.3s ease-in-out;
     margin: auto;
     background-color: var(--color-white);
-    border: 2px dashed var(--color-primary);
-    color: var(--color-primary);
+    border: 2px dashed var(--primary);
+    color: var(--dark);
 }
 button:hover{
-    background-color: var(--color-primary);
+    background-color: var(--primary);
     color: white;
+}
+
+h1{
+    color: var(--dark);
 }
 
 .profilePhoto img {

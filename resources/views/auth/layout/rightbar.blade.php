@@ -14,7 +14,7 @@
             <i class='bx bx-bell'></i>
             <span class="count">12</span>
         </a>
-        <a href="#" class="profile">
+        <a href="{{route('profile')}}" class="profile">
             <img src="{{asset('img/logo.png')}}">
         </a>
     </nav>

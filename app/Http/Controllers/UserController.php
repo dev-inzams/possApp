@@ -55,13 +55,13 @@ class UserController extends Controller
            $token = JWTToken::CreateToken( $email );
             return response()->json([
                 'status' => 'success',
-                'message' => 'user logged in successfully',
+                'message' => 'User logged in successfully',
                 'user' => $user->email
             ],200)->cookie( 'token', $token);
         }else{
             return response()->json([
                 'status' => 'error',
-                'message' => 'user login failed',
+                'message' => 'User login failed',
             ],200);
         }
     }catch(\Exception $e){

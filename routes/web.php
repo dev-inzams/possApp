@@ -14,13 +14,18 @@ use App\Http\Controllers\UserController;
 |
 */
 
-// page route
-Route::view('/', 'auth.dashboard')->name('dashboard');
+// auth page route
+Route::view('/dashboard', 'auth.dashboard')->name('dashboard');
+Route::view('/profile', 'auth.profile')->name('profile');
+
+// pages route
 Route::view('/login', 'pages.login')->name('login');
 Route::view('/register', 'pages.registration')->name('register');
 Route::view('/forgot-password', 'pages.forgotPassword')->name('forgotPassword');
 Route::view('/verify-otp', 'pages.verifyOTP')->name('otp');
 Route::view('/reset-password', 'pages.resetPassword')->name('resetPassword');
+
+
 
 
 

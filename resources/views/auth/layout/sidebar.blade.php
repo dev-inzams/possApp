@@ -5,9 +5,8 @@
             <div class="logo-name"><span>Asmr</span>Prog</div>
         </a>
         <ul class="side-menu">
-            <li><a href="#"><i class='bx bxs-dashboard'></i>Dashboard</a></li>
-            <li><a href="#"><i class='bx bx-store-alt'></i>Shop</a></li>
-            <li class="active"><a href="#"><i class='bx bx-analyse'></i>Analytics</a></li>
+            <li class="@if (Route::currentRouteName() == 'dashboard') active @endif"><a href="{{ route('dashboard') }}"><i class='bx bxs-dashboard'></i>Dashboard</a></li>
+            <li class="@if (Route::currentRouteName() == 'profile') active @endif"><a href="{{ route('profile') }}"><i class='bx bx-user'></i>Profile</a></li>
             <li><a href="#"><i class='bx bx-message-square-dots'></i>Tickets</a></li>
             <li><a href="#"><i class='bx bx-group'></i>Users</a></li>
             <li><a href="#"><i class='bx bx-cog'></i>Settings</a></li>
