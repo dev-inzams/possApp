@@ -11,6 +11,21 @@ use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
+
+    // profile view
+    function ProfileView(){
+        return view('auth.profile');
+    }
+
+
+
+
+
+
+
+
+
+//backend api area
     // user registration
     public function UserRegister(Request $request){
     try{
@@ -52,11 +67,10 @@ class UserController extends Controller
         $password = $request->input('password');
         $user = User::where('email', $email)->first();
         if(Hash::check($password, $user->password)){
-           $token = JWTToken::CreateToken( $email );
+           $token = JWTToken::CreateToken( $email , $user->id );
             return response()->json([
                 'status' => 'success',
-                'message' => 'User logged in successfully',
-                'user' => $user->email
+                'message' => 'User logged in successfully'
             ],200)->cookie( 'token', $token, 60*24*30);
         }else{
             return response()->json([
@@ -169,6 +183,34 @@ class UserController extends Controller
         return redirect('/login')->cookie( 'token', '', -1 );
     }
 
+    // user profile
+    public function UserProfile(Request $request){
+        $email = $request->header('email');
+        $user = User::where('email','=', $email)->first();
+        return response()->json([
+            'status' => 'success',
+            'data' => $user
+        ],200);
+    }
 
+    public function UpdateProfile(Request $request){
+        $email = $request->header('email');
+        $user = User::where('email', $email)->update([
+            'firstName' => $request->input('firstName'),
+            'lastName' => $request->input('lastName'),
+            'phoneNumber' => $request->input('phoneNumber'),
+        ]);
+        if($user){
+            return response()->json([
+                'status' => 'success',
+                'message' => 'user updated successfully',
+            ],200);
+        }else{
+            return response()->json([
+                'status' => 'error',
+                'message' => 'user update failed',
+            ],200);
+        }
+    }
 
 } // end of controller

@@ -6,14 +6,15 @@ use Firebase\JWT\Key;
 
 class JWTToken {
 
-    public static function CreateToken($userEmail){
+    public static function CreateToken($userEmail,$userID){
     try{
         $key = env('JWT_SECRET');
         $payload = [
             'iss' => env('APP_URL'),
             'iat' => time(),
             'exp' => time() + 60*60,
-            'userEmail' => $userEmail
+            'userEmail' => $userEmail,
+            'userID' => $userID
         ];
         return JWT::encode($payload, $key, 'HS256');
     }catch(\Exception $e){
@@ -34,7 +35,8 @@ class JWTToken {
                 'iss' => env('APP_URL'),
                 'iat' => time(),
                 'exp' => time() + 60*5,
-                'userEmail' => $userEmail
+                'userEmail' => $userEmail,
+                'userID' => '0'
             ];
             return JWT::encode($payload, $key, 'HS256');
         }catch(\Exception $e){
@@ -47,16 +49,18 @@ class JWTToken {
 
 
     public static function VerifyToken($token){
-    try{
-        $key = env('JWT_SECRET');
-        $decoded = JWT::decode($token, new Key($key, 'HS256'));
-        return $decoded->userEmail;
-    }catch(\Exception $e){
-        return response()->json([
-            'status' => 'unauthorized',
-            'message' => $e->getMessage(),
-        ],200);
-    }
+        try{
+            if($token == null){
+                return 'unauthorized';
+            }else{
+                $key = env('JWT_SECRET');
+                $decoded = JWT::decode($token, new Key($key, 'HS256'));
+                return $decoded;
+            }
+
+        }catch(\Exception $e){
+            return 'unauthorized';
+        }
     } // end of VerifyToken
 
 

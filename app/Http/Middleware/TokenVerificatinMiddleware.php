@@ -6,7 +6,6 @@ use App\Helper\JWTToken;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
-
 class TokenVerificatinMiddleware {
     /**
      * Handle an incoming request.
@@ -14,15 +13,14 @@ class TokenVerificatinMiddleware {
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
     public function handle( Request $request, Closure $next ): Response {
+
             $token = $request->cookie( 'token' );
             $result = JWTToken::VerifyToken( $token );
             if ( $result == 'unauthorized' ) {
-                return response()->json( [
-                    'status'  => 'error',
-                    'message' => 'unauthorized',
-                ], 200 );
+                return redirect('/login');
             } else {
-                $request->headers->set( 'email', $result );
+                $request->headers->set( 'email', $result->userEmail );
+                $request->headers->set( 'id', $result->userID );
                 return $next( $request );
             }
     }

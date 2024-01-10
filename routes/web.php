@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use App\Http\Middleware\TokenVerificatinMiddleware;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
@@ -15,9 +16,14 @@ use App\Http\Controllers\UserController;
 |
 */
 
-// auth page route
-Route::view('/', 'auth.dashboard')->name('dashboard')->middleware([TokenVerificatinMiddleware::class]);
-Route::view('/profile', 'auth.profile')->name('profile')->middleware([TokenVerificatinMiddleware::class]);
+// auth page route with token verification
+Route::group(['middleware' => [TokenVerificatinMiddleware::class]], function () {
+    Route::view('/', 'auth.dashboard')->name('dashboard');
+    Route::get('/profile', [UserController::class, 'ProfileView'])->name('profile');
+    //Route::view('/categories', 'auth.category')->name('categories');
+});
+
+
 
 // pages route
 Route::view('/login', 'pages.login')->name('login');
@@ -38,5 +44,18 @@ Route::post('/user-register',[UserController::class,'UserRegister'])->name('user
 Route::post('/user-login',[UserController::class,'UserLogin'])->name('user-login');
 Route::post('/user-send-otp',[UserController::class,'SendOTPCode'])->name('user-send-otp');
 Route::post('/user-verify-otp',[UserController::class,'VerifyOTPCode'])->name('user-verify-otp');
-Route::post('/user-reset-password',[UserController::class,'ResetPassword'])->name('user-reset-password');
-Route::get('/user-logout',[UserController::class,'UserLogout'])->name('logout');
+
+
+
+// group backend route for token verification
+Route::group(['middleware' => [TokenVerificatinMiddleware::class]], function () {
+    // user related route
+    Route::post('/user-reset-password',[UserController::class,'ResetPassword'])->name('user-reset-password');
+    Route::get('/user-logout',[UserController::class,'UserLogout'])->name('logout');
+    Route::post('/user-profile',[UserController::class,'UserProfile'])->name('user-profile');
+    Route::post('/update-profile',[UserController::class,'UpdateProfile'])->name('update-profile');
+
+    // category related api route
+    Route::post('/add-category',[CategoryController::class,'addCategory'])->name('create-category');
+    Route::get('/categories',[CategoryController::class,'getCategories'])->name('categories');
+});

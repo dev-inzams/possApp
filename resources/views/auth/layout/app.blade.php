@@ -8,7 +8,8 @@
     <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
     <link rel="stylesheet" href="{{ asset('css/preloader.css') }}">
     <link rel="stylesheet" href="{{ asset('css/tostify.css') }}">
-
+    <script src="{{ asset('js/preloader.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <title>@yield('title')</title>
 </head>
 
@@ -19,13 +20,13 @@
     </div>
     @include('auth.layout.sidebar')
     @include('auth.layout.rightbar')
-    @yield('content')
-
+    <main>
+        @yield('content')
+    </main>
 </div>
-<script src="{{ asset('js/preloader.js') }}"></script>
+
 <script src="{{ asset('js/dashboard.js') }}"></script>
 <script src="{{ asset('js/tostify.js') }}"></script>
-
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 </body>
