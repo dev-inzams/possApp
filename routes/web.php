@@ -31,7 +31,7 @@ Route::view('/register', 'pages.registration')->name('register');
 Route::view('/forgot-password', 'pages.forgotPassword')->name('forgotPassword');
 Route::view('/verify-otp', 'pages.verifyOTP')->name('otp');
 Route::view('/reset-password', 'pages.resetPassword')->name('resetPassword')->middleware([TokenVerificatinMiddleware::class]);
-
+Route::view('/categories', 'auth.category')->name('categories');
 
 
 
@@ -56,6 +56,9 @@ Route::group(['middleware' => [TokenVerificatinMiddleware::class]], function () 
     Route::post('/update-profile',[UserController::class,'UpdateProfile'])->name('update-profile');
 
     // category related api route
+    Route::post('/get-categories',[CategoryController::class,'getCategories'])->name('get-categories');
     Route::post('/add-category',[CategoryController::class,'addCategory'])->name('create-category');
-    Route::get('/categories',[CategoryController::class,'getCategories'])->name('categories');
+    Route::post('/get-category',[CategoryController::class,'getCategory'])->name('get-category');
+    Route::post('/update-category',[CategoryController::class,'updateCategory'])->name('update-category');
+    Route::post('/delete-category',[CategoryController::class,'deleteCategory'])->name('delete-category');
 });

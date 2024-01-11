@@ -19,7 +19,7 @@ class CategoryController extends Controller {
                     'data' => 'No categories found',
                 ], 200);
             }else{
-               return view('auth.category', ['categories' => $categories]);
+               return $categories;
             }
 
         } catch (\Exception $e) {
@@ -30,6 +30,17 @@ class CategoryController extends Controller {
         }
 
     }
+
+    // get Category use id
+    function getCategory( Request $request ) {
+        $user_id =  $request->header( 'id' );
+        $category_id = $request->input( 'category_id' );
+        $category = Category::where( 'id', $category_id )->where( 'user_id', $user_id )->first();
+        return response()->json([
+            'name' => $category->name
+        ]);
+    }
+
 
 
     // user create category
@@ -53,5 +64,32 @@ class CategoryController extends Controller {
         } // end of try
 
     } // createCategory end of function
+
+
+    // update category
+    function updateCategory( Request $request ) {
+        $user_id =  $request->header( 'id' );
+        $category_id = $request->input( 'category_id' );
+        $name = $request->input( 'name' );
+
+        Category::where( 'id', $category_id )->where( 'user_id', $user_id )->update( [
+            'name' => $name,
+        ]);
+        return response()->json( [
+            'status'  => 'success',
+            'message' => 'Category updated successfull',
+        ]);
+    }
+
+    // delete category
+    function deleteCategory( Request $request ) {
+        $user_id =  $request->header( 'id' );
+        $category_id = $request->input( 'category_id' );
+        Category::where( 'id', $category_id )->where( 'user_id', $user_id )->delete();
+        return response()->json( [
+            'status'  => 'success',
+            'message' => 'Category deleted successfull',
+        ]);
+    }
 
 } // end of controller
