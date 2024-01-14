@@ -66,7 +66,7 @@
 
         <div class="task-list">
             <label for="category">Category</label>
-            <input type="text" id="category" placeholder="Enter Category Name">
+            <input type="text" id="name" placeholder="Enter Category Name">
 
             <button onclick="addCategory()" type="submit">Add Category</button>
         </div>
@@ -113,19 +113,19 @@
     // add new category
     async function addCategory() {
         try{
-            let category = document.getElementById('category').value
-            if(category == ''){
+            let name = document.getElementById('name').value
+            if(name == ''){
                 errorToast('Fields are required')
             }else{
                 let postobj = {
-                    'name' : category
+                    'name' : name
                 };
                 showLoader()
                 let res = await axios.post("/add-category",postobj);
                 hideLoader();
                 if(res.data['status'] == 'success'){
                     successToast(res.data['message']);
-                    document.getElementById('category').reset();
+                    document.getElementById('name').value = '';
                     await getCategories();
                 }
             }
@@ -138,19 +138,26 @@
     async function deleteCategory(id){
         try{
             deleteModal();
-            await new Promise(resolve => {
-                document.getElementById('confirmDeleteBtn').addEventListener('click', resolve, { once: true });
-            });
-            let res = await axios.post("/delete-category",{'category_id' : id});
-            if(res.data['status'] == 'success'){
-                deleteModalClose();
-                successToast(res.data['message']);
-                await getCategories();
-            }
+            document.getElementById('confirmDeleteBtn').dataset.id = id;
         }catch(error){
             errorToast('Something went wrong')
         }
     }
+
+    async function deleteConfirm(){
+        let category_id = document.getElementById('confirmDeleteBtn').dataset.id
+        let res = await axios.post("/delete-category",{'category_id' : category_id});
+        if(res.data['status'] == 'success'){
+            deleteModalClose();
+            successToast(res.data['message']);
+            await getCategories();
+        }else{
+            deleteModalClose();
+            errorToast(res.data['message']);
+        }
+    }
+
+
 
 
     // edit category

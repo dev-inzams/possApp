@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Middleware\TokenVerificatinMiddleware;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
@@ -32,7 +33,7 @@ Route::view('/forgot-password', 'pages.forgotPassword')->name('forgotPassword');
 Route::view('/verify-otp', 'pages.verifyOTP')->name('otp');
 Route::view('/reset-password', 'pages.resetPassword')->name('resetPassword')->middleware([TokenVerificatinMiddleware::class]);
 Route::view('/categories', 'auth.category')->name('categories');
-
+Route::view('/customers', 'auth.customers')->name('customers');
 
 
 
@@ -61,4 +62,13 @@ Route::group(['middleware' => [TokenVerificatinMiddleware::class]], function () 
     Route::post('/get-category',[CategoryController::class,'getCategory'])->name('get-category');
     Route::post('/update-category',[CategoryController::class,'updateCategory'])->name('update-category');
     Route::post('/delete-category',[CategoryController::class,'deleteCategory'])->name('delete-category');
+
+
+    // customer related api route
+    Route::post('/get-customers',[CustomerController::class,'getCustomers'])->name('get-customers');
+    Route::post('/get-customer',[CustomerController::class,'getCustomer'])->name('get-customer');
+    Route::post('/update-customer',[CustomerController::class,'updateCustomer'])->name('update-customer');
+    Route::post('/delete-customer',[CustomerController::class,'deleteCustomer'])->name('delete-customer');
+    Route::post('/add-customer',[CustomerController::class,'addCustomer'])->name('create-customer');
+
 });

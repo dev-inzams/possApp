@@ -29,7 +29,7 @@
             <span class="delete-close-btn" onclick="deleteModalClose()">&times;</span>
             <h2>Delete Confirmation</h2>
             <p>Are you sure you want to delete this item?</p>
-            <button class="delete-modal-btn" id="confirmDeleteBtn">Delete</button>
+            <button onclick="deleteConfirm()" class="delete-modal-btn btn-danger" id="confirmDeleteBtn">Delete</button>
         </div>
     </div>
 
