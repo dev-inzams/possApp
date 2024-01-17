@@ -29,7 +29,7 @@
             <span class="delete-close-btn" onclick="deleteModalClose()">&times;</span>
             <h2>Delete Confirmation</h2>
             <p>Are you sure you want to delete this item?</p>
-            <button onclick="deleteConfirm()" class="delete-modal-btn btn-danger" id="confirmDeleteBtn">Delete</button>
+            <button class="delete-modal-btn btn-danger" id="confirmDeleteBtn">Delete</button>
         </div>
     </div>
 
@@ -54,6 +54,7 @@
 
     function deleteModalClose() {
         document.getElementById('deleteModal').style.display = 'none';
+        document.getElementById('confirmDeleteBtn').dataset.id = 0;
     }
 
     // Open modal

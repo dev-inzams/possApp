@@ -24,7 +24,7 @@
         <span class="close-btn" onclick="closeModal()">&times;</span>
         <h2>Update Category</h2>
         <input type="text" id="updatecategory">
-        <button class="btn" data-id="" onclick="updateCategory()">Update</button>
+        <button id="update" class="btn" data-id="" >Update</button>
     </div>
 </div>
 
@@ -139,24 +139,23 @@
         try{
             deleteModal();
             document.getElementById('confirmDeleteBtn').dataset.id = id;
+            document.getElementById('confirmDeleteBtn').addEventListener('click', async function() {
+                let category_id = document.getElementById('confirmDeleteBtn').dataset.id
+                let res = await axios.post("/delete-category",{'category_id' : category_id});
+                if(res.data['status'] == 'success'){
+                    deleteModalClose();
+                    successToast(res.data['message']);
+                    await getCategories();
+                }else{
+                    deleteModalClose();
+                    errorToast(res.data['message']);
+                }
+            });
+
         }catch(error){
             errorToast('Something went wrong')
         }
     }
-
-    async function deleteConfirm(){
-        let category_id = document.getElementById('confirmDeleteBtn').dataset.id
-        let res = await axios.post("/delete-category",{'category_id' : category_id});
-        if(res.data['status'] == 'success'){
-            deleteModalClose();
-            successToast(res.data['message']);
-            await getCategories();
-        }else{
-            deleteModalClose();
-            errorToast(res.data['message']);
-        }
-    }
-
 
 
 
@@ -167,23 +166,20 @@
             openModal();
             document.getElementById('updatecategory').value = res.data['name'];
             document.getElementById('updatecategory').dataset.id = id;
-        }catch(error){
-            errorToast('Something went wrong')
-        }
-    }
-
-
-    // update category
-    async function updateCategory() {
-        try{
-            let updatecategory = document.getElementById('updatecategory').value
-            let category_id = document.getElementById('updatecategory').dataset.id
-            let res = await axios.post("/update-category",{'category_id' : category_id,'name' : updatecategory});
-            if(res.data['status'] == 'success'){
-                closeModal();
-                successToast(res.data['message']);
-                await getCategories();
-            }
+            document.getElementById('update').addEventListener('click', async function(e){
+                try{
+                    let updatecategory = document.getElementById('updatecategory').value
+                    let category_id = document.getElementById('updatecategory').dataset.id
+                    let res = await axios.post("/update-category",{'category_id' : category_id,'name' : updatecategory});
+                    if(res.data['status'] == 'success'){
+                        closeModal();
+                        successToast(res.data['message']);
+                    await getCategories();
+                }
+                }catch(error){
+                    errorToast('Something went wrong')
+                }
+            });
         }catch(error){
             errorToast('Something went wrong')
         }
