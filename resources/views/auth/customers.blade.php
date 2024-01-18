@@ -10,7 +10,7 @@
         <input type="text" id="name">
         <input type="text" id="email">
         <input type="text" id="phone">
-        <button class="btn" id="update" onclick="updateCustomer()">Update</button>
+        <button class="btn" id="update">Update</button>
     </div>
 </div>
 
@@ -95,62 +95,59 @@
             document.getElementById('email').value = res.data['email'];
             document.getElementById('phone').value = res.data['phone'];
             document.getElementById('update').dataset.id = id;
+            document.getElementById('update').addEventListener('click', async function() {
+                let id = document.getElementById('update').dataset.id
+                let name = document.getElementById('name').value
+                let email = document.getElementById('email').value
+                let phone = document.getElementById('phone').value
+
+                let postobj = {
+                    'id' : id,
+                    'name' : name,
+                    'email' : email,
+                    'phone' : phone
+                }
+                showLoader();
+                let res = await axios.post("/update-customer",postobj);
+                hideLoader();
+                if(res.data['status'] == 'success'){
+                    closeModal();
+                    successToast(res.data['message']);
+                    await getCustomer();
+                }else{
+                    closeModal();
+                    errorToast(res.data['message']);
+                }
+            });
         }catch(error){
             errorToast('Something went wrong')
         }
     }
 
-    // update customer
-    async function  updateCustomer() {
-        let id = document.getElementById('update').dataset.id
-        let name = document.getElementById('name').value
-        let email = document.getElementById('email').value
-        let phone = document.getElementById('phone').value
-
-        let postobj = {
-            'id' : id,
-            'name' : name,
-            'email' : email,
-            'phone' : phone
-        }
-        showLoader();
-        let res = await axios.post("/update-customer",postobj);
-        hideLoader();
-        if(res.data['status'] == 'success'){
-            closeModal();
-            successToast(res.data['message']);
-            await getCustomer();
-        }else{
-            closeModal();
-            errorToast(res.data['message']);
-        }
-    }
 
 
     // delete category
     async function deleteCustomer(id) {
         document.getElementById('confirmDeleteBtn').dataset.id = id
         deleteModal();
-    }
-
-
-    // delete category
-    async function deleteConfirm() {
-        try{
-            let id = document.getElementById('confirmDeleteBtn').dataset.id
-            let res = await axios.post("/delete-customer",{'id' : id});
-            if(res.data['status'] == 'success'){
-                deleteModalClose();
-                successToast(res.data['message']);
-                await getCustomer();
-            }else{
-                deleteModalClose();
-                errorToast(res.data['message']);
+        document.getElementById('confirmDeleteBtn').addEventListener('click', async function() {
+            try{
+                let id = document.getElementById('confirmDeleteBtn').dataset.id
+                let res = await axios.post("/delete-customer",{'id' : id});
+                if(res.data['status'] == 'success'){
+                    deleteModalClose();
+                    successToast(res.data['message']);
+                    await getCustomer();
+                }else{
+                    deleteModalClose();
+                    errorToast(res.data['message']);
+                }
+            }catch(error){
+                errorToast('Something went wrong')
             }
-        }catch(error){
-            errorToast('Something went wrong')
-        }
-    }
+        }); // end of delete
+    } // end of delete
+
 
     // addCustomer
     async function addCustomer() {

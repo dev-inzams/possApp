@@ -57,14 +57,20 @@
         document.getElementById('confirmDeleteBtn').dataset.id = 0;
     }
 
-    // Open modal
+    // Open update modal
     function openModal(){
         document.getElementById('customModal').style.display = 'block';
+     }
+
+    // Open create modal
+    function createModal(){
+        document.getElementById('createModal').style.display = 'block';
      }
 
     //  close modal
      function closeModal(){
         document.getElementById('customModal').style.display = 'none';
+        document.getElementById('createModal').style.display = 'none';
      }
 
 </script>

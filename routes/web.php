@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\ProductController;
 use App\Http\Middleware\TokenVerificatinMiddleware;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
@@ -34,7 +35,7 @@ Route::view('/verify-otp', 'pages.verifyOTP')->name('otp');
 Route::view('/reset-password', 'pages.resetPassword')->name('resetPassword')->middleware([TokenVerificatinMiddleware::class]);
 Route::view('/categories', 'auth.category')->name('categories');
 Route::view('/customers', 'auth.customers')->name('customers');
-
+Route::view('/products', 'auth.products')->name('products');
 
 
 
@@ -71,4 +72,11 @@ Route::group(['middleware' => [TokenVerificatinMiddleware::class]], function () 
     Route::post('/delete-customer',[CustomerController::class,'deleteCustomer'])->name('delete-customer');
     Route::post('/add-customer',[CustomerController::class,'addCustomer'])->name('create-customer');
 
+
+    // product related api route
+    Route::post('/get-products',[ProductController::class,'getProducts'])->name('get-products');
+    Route::post('/add-product',[ProductController::class,'create'])->name('add-product');
+    Route::post('/delete-product',[ProductController::class,'delete'])->name('delete-product');
+    Route::post('/get-product',[ProductController::class,'getProduct'])->name('get-product');
+    Route::post('/update-product',[ProductController::class,'update'])->name('update-product');
 });

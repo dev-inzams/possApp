@@ -87,13 +87,19 @@ button:hover{
 h1{
     color: var(--dark);
 }
+
+.img{
+    max-width: 200px;
+    height: 200px;
+    object-fit: content;
+    border-radius: 5px;
+}
 .btn{
     border-radius: 5px;
     padding: 8px 15px;
     font-size: 15px;
     cursor: pointer;
     transition: all 0.3s ease-in-out;
-    margin: auto;
     background-color: var(--color-white);
     border: 2px dashed var(--success);
     color: var(--success);
@@ -127,7 +133,7 @@ h1{
 }
 
 .mt-5{
-    margin-top: 10px;
+    margin-top: 30px;
 }
 
 .sidebar{
@@ -656,7 +662,7 @@ h1{
 
 .modal-content {
     position: absolute;
-    top: 30%;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: white;
