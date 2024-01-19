@@ -1,11 +1,12 @@
 <?php
 
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\CustomerController;
-use App\Http\Controllers\ProductController;
-use App\Http\Middleware\TokenVerificatinMiddleware;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CustomerController;
+use App\Http\Middleware\TokenVerificatinMiddleware;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,7 +38,8 @@ Route::view('/categories', 'auth.category')->name('categories');
 Route::view('/customers', 'auth.customers')->name('customers');
 Route::view('/products', 'auth.products')->name('products');
 
-
+Route::view('/invoice', 'auth.invoice')->name('invoice');
+Route::view('/sales', 'auth.sales')->name('sales');
 
 
 
@@ -79,4 +81,10 @@ Route::group(['middleware' => [TokenVerificatinMiddleware::class]], function () 
     Route::post('/delete-product',[ProductController::class,'delete'])->name('delete-product');
     Route::post('/get-product',[ProductController::class,'getProduct'])->name('get-product');
     Route::post('/update-product',[ProductController::class,'update'])->name('update-product');
+
+    // invoice related api route
+    Route::post('/create-invoice',[InvoiceController::class,'invoiceCreate'])->name('create-invoice');
+    Route::get('/select-invoice',[InvoiceController::class,'invoiceSelect'])->name('select-invoice');
+    Route::post('/invoice-details',[InvoiceController::class,'invoiceDetails'])->name('invoice-details');
+    Route::post('/delete-invoice',[InvoiceController::class,'invoiceDelete'])->name('delete-invoice');
 });

@@ -70,6 +70,10 @@
     //  close modal
      function closeModal(){
         document.getElementById('customModal').style.display = 'none';
+
+     }
+
+     function closeModalTwo(){
         document.getElementById('createModal').style.display = 'none';
      }
 

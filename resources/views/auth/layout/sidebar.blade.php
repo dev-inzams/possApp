@@ -10,6 +10,8 @@
             <li class="@if (Route::currentRouteName() == 'categories') active @endif"><a href="{{ route('categories') }}"><i class='bx bx-category'></i>Categories</a></li>
             <li class="@if (Route::currentRouteName() == 'customers') active @endif"><a href="{{ route('customers') }}"><i class='bx bx-group'></i>Customers</a></li>
             <li class="@if (Route::currentRouteName() == 'products') active @endif"><a href="{{ route('products') }}"><i class='bx bx-package'></i>Products</a></li>
+            <li class="@if (Route::currentRouteName() == 'invoice') active @endif"><a href="{{ route('invoice') }}"><i class='bx bx-cart'></i>Invoice</a></li>
+            <li class="@if (Route::currentRouteName() == 'sales') active @endif"><a href="{{ route('sales') }}"><i class='bx bx-cart'></i>Sales</a></li>
             <li><a href="#"><i class='bx bx-message-square-dots'></i>Tickets</a></li>
             <li><a href="#"><i class='bx bx-group'></i>Users</a></li>
             <li><a href="#"><i class='bx bx-cog'></i>Settings</a></li>
