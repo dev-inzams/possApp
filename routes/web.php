@@ -23,7 +23,16 @@ use App\Http\Middleware\TokenVerificatinMiddleware;
 Route::group(['middleware' => [TokenVerificatinMiddleware::class]], function () {
     Route::view('/', 'auth.dashboard')->name('dashboard');
     Route::get('/profile', [UserController::class, 'ProfileView'])->name('profile');
-    //Route::view('/categories', 'auth.category')->name('categories');
+
+    Route::view('/reset-password', 'pages.resetPassword')->name('resetPassword');
+
+    Route::view('/categories', 'auth.category')->name('categories');
+    Route::view('/customers', 'auth.customers')->name('customers');
+    Route::view('/products', 'auth.products')->name('products');
+
+    Route::view('/invoice', 'auth.invoice')->name('invoice');
+    Route::view('/sales', 'auth.sales')->name('sales');
+
 });
 
 
@@ -33,13 +42,7 @@ Route::view('/login', 'pages.login')->name('login');
 Route::view('/register', 'pages.registration')->name('register');
 Route::view('/forgot-password', 'pages.forgotPassword')->name('forgotPassword');
 Route::view('/verify-otp', 'pages.verifyOTP')->name('otp');
-Route::view('/reset-password', 'pages.resetPassword')->name('resetPassword')->middleware([TokenVerificatinMiddleware::class]);
-Route::view('/categories', 'auth.category')->name('categories');
-Route::view('/customers', 'auth.customers')->name('customers');
-Route::view('/products', 'auth.products')->name('products');
 
-Route::view('/invoice', 'auth.invoice')->name('invoice');
-Route::view('/sales', 'auth.sales')->name('sales');
 
 
 

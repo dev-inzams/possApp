@@ -67,7 +67,7 @@
             <label for="custom-discount">Discount</label>
             <input type="number" id="custom-discount">
 
-            <button class="btn">Confirm</button>
+            <button onclick="createInvoice()" class="btn">Confirm</button>
         </div>
     </div>
 
@@ -229,30 +229,73 @@
                     <td>${item.qty}</td>
                     <td>${item.sale_price}</td>
 
-                    <td><button onclick="deleteProduct(${index})" class="btn-danger delete">Delete</button></td>
+                    <td><button data-id="${index}" class="btn-danger delete">Delete</button></td>
                 </tr>`
 
             tableList.append(row);
+
             total += item.sale_price;
             vat = total * 1 / 100;
             // check if key up in discount
             payable = total + vat;
             $('#custom-discount').on('keyup', function () {
                 let customeDiscount = $('#custom-discount').val();
+                payable = (total + vat) - ( total * customeDiscount) / 100;
+                $("#payable").text(payable);
                 $('#discount').text(customeDiscount);
-                if(customeDiscount){
-                    payable = total  - (total * customeDiscount / 100);
-                }else{
-                    payable = total + vat;
-                }
             });
 
+
         });
+        $("#payable").text(payable);
         $("#total").text(total);
         $("#vat").text(vat);
-        $("#payable").text(payable + vat);
+
+        $('.delete').on('click', function () {
+            let id = $(this).data('id');
+            InvoiceItemLists.splice(id, 1);
+            showInvoice();
+        });
+
+
     }
 
+
+
+
+
+
+
+
+
+    async function  createInvoice() {
+        try{
+            let customer_id = $("#Cid").text();
+            let discout = $("#discount").text();
+            let total = $("#total").text();
+            let vat = $("#vat").text();
+            let payable = $("#payable").text();
+            let product = JSON.stringify(InvoiceItemLists);
+
+            let postobj = {
+                "total" : total,
+                "discount": discout,
+                "vat" : vat,
+                "payable": payable,
+                "customer_id": customer_id,
+                "products": InvoiceItemLists
+            }
+            showLoader();
+            let res = await axios.post("/create-invoice",postobj);
+            hideLoader();
+            if(res.data['status'] == 'success'){
+                successToast(res.data['message']);
+                InvoiceItemLists = [];
+            }
+        }catch(err){
+            errorToast('Something went wrong');
+        }
+    }
 
 
 

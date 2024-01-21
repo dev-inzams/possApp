@@ -6,8 +6,8 @@
     <div class="modal-content">
         <span class="close-btn" onclick="closeModal()">&times;</span>
         <h2>Update Customer</h2>
-        <label for="category">Category</label>
-        <select id="category">
+        <label for="categoryUpdate">Category</label>
+        <select id="categoryUpdate">
             <option value="">Select Category</option>
         </select>
 
@@ -33,8 +33,8 @@
 {{-- create product modal --}}
 <div class="modal mt-5" id="createModal">
     <div class="modal-content">
-        <span class="close-btn" onclick="closeModal()">&times;</span>
-        <h2>Update Customer</h2>
+        <span class="close-btn" onclick="closeModalTwo()">&times;</span>
+        <h2>Add Product</h2>
             <label for="category">Category</label>
             <select id="category">
                 <option value="">Select Category</option>
@@ -95,6 +95,10 @@
         res.data.forEach(function (item, i) {
             let option = `<option value="${item.id}">${item.name}</option>`;
             $('#category').append(option);
+        });
+        res.data.forEach(function (item, i) {
+            let option = `<option value="${item.id}">${item.name}</option>`;
+            $('#categoryUpdate').append(option);
         });
     }
 
@@ -181,14 +185,14 @@
              document.getElementById('updatePrice').value = res.data['price'];
              document.getElementById('updateUnit').value = res.data['unit'];
              document.getElementById('updateNewImg').src = res.data['img_url'];
-             document.getElementById('category').value = res.data['category_id'];
+             document.getElementById('categoryUpdate').value = res.data['category_id'];
              document.getElementById('update').dataset.id = id;
              document.getElementById('update').addEventListener('click', async function() {
                 let id = document.getElementById('update').dataset.id
                 let name = document.getElementById('updateName').value
                 let price = document.getElementById('updatePrice').value
                 let unit = document.getElementById('updateUnit').value
-                let category = document.getElementById('category').value
+                let category = document.getElementById('categoryUpdate').value
                 let img = document.getElementById('updateImg').files[0];
                 if(img){
                     let postobj = {
