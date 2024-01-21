@@ -87,7 +87,7 @@ Route::group(['middleware' => [TokenVerificatinMiddleware::class]], function () 
 
     // invoice related api route
     Route::post('/create-invoice',[InvoiceController::class,'invoiceCreate'])->name('create-invoice');
-    Route::get('/select-invoice',[InvoiceController::class,'invoiceSelect'])->name('select-invoice');
+    Route::post('/select-invoice',[InvoiceController::class,'invoiceSelect'])->name('select-invoice');
     Route::post('/invoice-details',[InvoiceController::class,'invoiceDetails'])->name('invoice-details');
     Route::post('/delete-invoice',[InvoiceController::class,'invoiceDelete'])->name('delete-invoice');
 });
