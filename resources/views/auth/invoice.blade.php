@@ -3,6 +3,18 @@
 
 
 
+<div class="modal" id="customModal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeModal()">&times;</span>
+        <h2>Update Invoice</h2>
+        <input type="text" id="total">
+    </div>
+</div>
+
+
+
+
+
 
 
 <div class="bottom-data">
@@ -49,11 +61,14 @@
                     <td>${item.vat}</td>
                     <td>${item.payable}</td>
                     <td>${item.customer.name}</td>
-                    <td>
+                </tr>
                 `
             tableList.append(row);
         });
     }
+
+
+
 </script>
 
 

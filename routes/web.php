@@ -6,6 +6,7 @@ use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Middleware\TokenVerificatinMiddleware;
 
 /*
@@ -90,4 +91,11 @@ Route::group(['middleware' => [TokenVerificatinMiddleware::class]], function () 
     Route::post('/select-invoice',[InvoiceController::class,'invoiceSelect'])->name('select-invoice');
     Route::post('/invoice-details',[InvoiceController::class,'invoiceDetails'])->name('invoice-details');
     Route::post('/delete-invoice',[InvoiceController::class,'invoiceDelete'])->name('delete-invoice');
+
+
+    // dashboard api route
+    Route::post('/total-payed',[DashboardController::class,'totalPaid'])->name('total-payed');
+    Route::post('/total-order',[DashboardController::class,'totalOrder'])->name('total-order');
+    Route::post('/recent-order',[DashboardController::class,'recentOrder'])->name('recent-order');
+
 });

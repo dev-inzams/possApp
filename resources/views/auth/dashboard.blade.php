@@ -21,11 +21,12 @@
     <ul class="insights">
         <li>
             <i class='bx bx-calendar-check'></i>
+            <div class="gc gb" id="gl"> </div>
             <span class="info">
-                <h3>
-                    1,074
+                <h3 id="total-order">
+
                 </h3>
-                <p>Paid Order</p>
+                <p>Order</p>
             </span>
         </li>
         <li><i class='bx bx-show-alt'></i>
@@ -45,9 +46,9 @@
             </span>
         </li>
         <li><i class='bx bx-dollar-circle'></i>
+            <div class="gc gb" id="gl"> </div>
             <span class="info">
-                <h3>
-                    $6,742
+                <h3 id="total">
                 </h3>
                 <p>Total Sales</p>
             </span>
@@ -66,36 +67,14 @@
             <table>
                 <thead>
                     <tr>
-                        <th>User</th>
-                        <th>Order Date</th>
-                        <th>Status</th>
+                        <th>Customer Name</th>
+                        <th>Phone</th>
+                        <th>Created</th>
+                        <th>Payable</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td>
-                            <img src="{{asset('img/profile-1.jpg')}}">
-                            <p>John Doe</p>
-                        </td>
-                        <td>14-08-2023</td>
-                        <td><span class="status completed">Completed</span></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <img src="{{asset('img/profile-1.jpg')}}">
-                            <p>John Doe</p>
-                        </td>
-                        <td>14-08-2023</td>
-                        <td><span class="status pending">Pending</span></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <img src="{{asset('img/profile-1.jpg')}}">
-                            <p>John Doe</p>
-                        </td>
-                        <td>14-08-2023</td>
-                        <td><span class="status process">Processing</span></td>
-                    </tr>
+                <tbody id="recentOrder">
+
                 </tbody>
             </table>
         </div>
@@ -136,5 +115,60 @@
         <!-- End of Reminders-->
 
     </div>
+
+
+
+<script>
+    totalPaid();
+    async function totalPaid(){
+        gls();
+        let res = await axios.post("/total-payed");
+        glh();
+        let total = document.getElementById('total');
+        total.innerText = res.data['totalPaid'] + " $";
+    }
+
+    totalOrder();
+    async function totalOrder(){
+        gls();
+        let res = await axios.post("/total-order");
+        glh();
+        let total = document.getElementById('total-order');
+        total.innerText = res.data['totalOrder'] + " Paid";
+
+    }
+
+
+    recentOrder();
+    async function recentOrder(){
+        gls();
+        let res = await axios.post("/recent-order");
+        glh();
+        let total = document.getElementById('recentOrder');
+        // make loop
+
+        for(let i = 0; i < res.data['recentOrder'].length; i++){
+            total.innerHTML += `
+                <tr>
+                    <td>${res.data['recentOrder'][i]['customer']['name']}</td>
+                    <td>${res.data['recentOrder'][i]['customer']['phone']}</td>
+                    <td>${res.data['recentOrder'][i]['created_at']}</td>
+                    <td>${res.data['recentOrder'][i]['payable']}</td>
+                </tr>
+            `
+        }
+
+    }
+
+
+    function gls() {
+        document.getElementById('gl').style.display = 'block';
+    }
+
+    function glh() {
+        document.getElementById('gl').style.display = 'none';
+    }
+</script>
+
 
 @endSection
